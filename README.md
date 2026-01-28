@@ -61,8 +61,9 @@ Step A: Automatic Download Run the following script to download the base models 
 
 ```Bash
 python tokan/utils/model_utils.py
-Step B: Manual Download from Hugging Face Download the specific checkpoints from our Model Hub:
 ```
+Step B: Manual Download from Hugging Face Download the specific checkpoints from our Model Hub:
+
 Link: https://huggingface.co/OrDavidovich/TokAN-RealTime
 
 Required Files to Download:
@@ -89,9 +90,10 @@ pretrained_models/
 │       └── dict.aux.txt
 └── checkpoints/
     └── best_gan.pt             <-- (Place GAN model here)
+```
 📂 Data Preparation
 Note: The dataset audio files (.wav) are not included in this repository.
-```
+
 1. Download Datasets
 Please download the datasets from their official sources:
 
