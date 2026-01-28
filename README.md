@@ -46,7 +46,7 @@ cd TokAN-RealTime
 pip install -r requirements.txt
 2. Install Fairseq (Crucial)
 You must install the specific fairseq version provided in the submodule.
-
+```
 Bash
 cd third_party/fairseq
 pip install -e .
@@ -55,12 +55,12 @@ cd ../..
 Due to file size limits, the models are hosted on Hugging Face.
 
 Step A: Automatic Download Run the following script to download the base models (HuBERT, etc.):
-
+```
 Bash
 python tokan/utils/model_utils.py
 Step B: Manual Download from Hugging Face Download the specific checkpoints from our Model Hub:
-
-(Link: https://huggingface.co/OrDavidovich/TokAN-RealTime)
+```
+Link: https://huggingface.co/OrDavidovich/TokAN-RealTime
 
 Required Files to Download:
 
@@ -101,7 +101,7 @@ Extract them into a local directory (e.g., data/L2Arctic).
 2. Prepare Targets (Distillation)
 We use the original TokAN model as a "Teacher" to generate training targets.
 
-Bash
+```Bash
 python tokan_gan_decoder/data/dataset.py \
     --data_dir /path/to/L2Arctic \
     --output_dir ./gan_targets \
@@ -109,21 +109,21 @@ python tokan_gan_decoder/data/dataset.py \
     --cfm_timesteps 32
 3. Verify Splits
 Ensure held-out speakers (EBVS, SKA) are isolated.
-
-Bash
+```
+```Bash
 python tokan_gan_decoder/prepare_gan_splits.py --data_dir ./gan_targets
 🏃 Usage
 Training
 Train the GAN decoder using PyTorch Lightning.
-
-Bash
+```
+```Bash
 # Run on GPU
 CUDA_VISIBLE_DEVICES="0" python tokan_gan_decoder/training/trainer.py \
     --config tokan_gan_decoder/training/config.yaml
 Real-Time Inference
 You can run inference using the main script which integrates the GAN decoder.
-
-Bash
+```
+```Bash
 python inference.py \
     --input_path input.wav \
     --output_path output.wav \
@@ -143,8 +143,9 @@ synth = FastMelSynthesizer(
 
 # Synthesize (Single forward pass)
 audio = synth.synthesize(tokens, speaker_embedding)
+```
 📁 File Structure
-Plaintext
+```Plaintext
 TokAN-RealTime/
 ├── components/                 # Original TokAN modules
 ├── third_party/                # Fairseq submodule
@@ -163,5 +164,6 @@ TokAN-RealTime/
 ├── inference.py                # Main inference entry point
 ├── requirements.txt
 └── README.md
+```
 Acknowledgements
 This project builds upon the official TokAN implementation (Interspeech 2025).
