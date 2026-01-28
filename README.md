@@ -1,4 +1,3 @@
-Markdown
 # Accelerating TokAN for Real-Time Accent Conversion on CPU
 
 **Authors:** Or Davidovich & Chenxi Liu  
