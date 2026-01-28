@@ -1,0 +1,15 @@
+defaults:
+  - ljspeech
+  - _self_
+
+_target_: tokan.matcha.data.text_mel_datamodule.TextMelDataModule
+name: libritts
+n_spks: 0
+use_spkemb: True
+train_filelist_path: null
+valid_filelist_path: null
+batch_size: 16  # 16 x 4 GPUs in paper
+add_blank: True
+data_statistics:  # Computed for libritts dataset
+  mel_mean: 0.0
+  mel_std: 1.0

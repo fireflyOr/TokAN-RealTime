@@ -1,0 +1,44 @@
+# --- Core Deep Learning & Audio ---
+torch>=2.0.0
+torchaudio>=2.0.0
+numpy
+scipy
+librosa
+soundfile
+resampy
+
+# --- Project Specific (TokAN-GAN) ---
+lightning>=2.0.0      # Framework for the new GAN Trainer
+einops                # Required for tensor manipulations (ResStack/GAN)
+resemblyzer           # For Speaker Verification metrics (SECS)
+silero-vad            # For Voice Activity Detection (VAD)
+tensorboard           # For logging training curves
+tqdm                  # Progress bars
+
+# --- Configuration & Data ---
+hydra-core>=1.1       # Configuration management
+omegaconf
+pandas                # Data analysis and profiling
+joblib
+scikit-learn          # For dataset splits and clustering
+
+# --- Visualization ---
+matplotlib            # For plotting loss curves (Fig 3 in report)
+wandb                 # Optional: Experiment tracking
+
+# --- Text Processing & Legacy TokAN ---
+regex
+sacrebleu
+bitarray
+cython
+pydub
+json5                 # Required for HiFi-GAN config parsing
+
+# ---------------------------------------------------------
+# IMPORTANT MANUAL INSTALLATIONS REQUIRED:
+# ---------------------------------------------------------
+# 1. fairseq: This must be installed from the local submodule.
+#    Run: pip install -e third_party/fairseq
+#
+# 2. espeak: This is a system-level dependency.
+#    Run: sudo apt-get install espeak espeak-data

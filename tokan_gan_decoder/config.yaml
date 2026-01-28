@@ -1,0 +1,49 @@
+# ==============================================================================
+# TokAN Profiler Configuration
+# ==============================================================================
+
+# --- Dataset ---
+dataset_root: "/home/chenxiliu/PhD/TokAN/data/L2Arctic"
+# accents: [chinese, hindi]  # Optional filter
+# speakers: [BWC]            # Optional filter
+max_files_per_speaker: 20     # Set to null to process all
+
+# --- Hardware ---
+device: "cpu" #"cpu"                # 'cuda', 'cpu', or null (auto)
+
+# --- Models ---
+download_models: true
+hubert_model: "pretrained_models/hubert/hubert_large_ll60k.pt"
+hubert_km_path: "pretrained_models/hubert_km/hubert_km_libritts_l17_1000.pt"
+conversion_model: "pretrained_models/token_to_token/tokan-t2t-base-paper/model.pt"
+synthesis_model: "pretrained_models/token_to_mel/tokan-t2m-v1-paper/model.ckpt"
+
+# --- GAN Decoder (Fast Mode) ---
+use_gan_decoder: true
+gan_decoder_path: "/home/chenxiliu/PhD/TokAN/fast_synthesizer/checkpoints/gan_decoder/best.pt"
+
+vocoder_type: "hifigan"   # Choose vocoder type: "hifigan" (Fast, ONNX) or "bigvgan" (High Quality, PyTorch)
+bigvgan_tag_or_ckpt: "nvidia/bigvgan_22khz_80band" # Path for BigVGAN (used if vocoder_type is "bigvgan")
+
+#"/home/chenxiliu/PhD/TokAN/pretrained_models/hifigan_ft_v1.onnx"
+hifigan_onnx: "/home/chenxiliu/PhD/TokAN/pretrained_models/hifigan_22khz.onnx" # (UNIVERSAN_V1)
+
+# --- Parameters ---
+beam_size: 1   # 1 -> fast， 10 -> better quality
+preserve_duration: false
+hubert_layer: 17
+vad_threshold: 0.5
+max_duration: 10.0
+min_duration: 3.0
+min_embed_duration: 5.0
+n_timesteps: 4                # Control yirga flow matching steps: 1, 4, 8, 16, 32
+
+# --- Output ---
+auto_output_paths: true
+base_output_dir: "/home/chenxiliu/PhD/TokAN/batch_outputs"
+base_json_dir: "/home/chenxiliu/PhD/TokAN/output_json"
+save_audio: true             # Must be true to generate WAV files
+
+# --- Advanced ---
+use_cache: false             # Speed up by caching speaker embeddings
+warmup_iterations: 3

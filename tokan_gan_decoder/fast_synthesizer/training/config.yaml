@@ -1,0 +1,83 @@
+# ==============================================================================
+# GAN Decoder Training Configuration
+# ==============================================================================
+#
+# Trains a single-forward GAN decoder to replace TokAN's iterative CFM decoder.
+# Uses CFM-generated mel spectrograms as distillation targets.
+#
+# Data splits:
+# - Test speakers (EBVS, SKA): completely held out
+# - Training speakers (22 L2): 50 test + 50 val sentences per speaker
+# ==============================================================================
+
+# --- Model ---
+model:
+  decoder_type: "conv"      # "conv" (faster) or "conformer" (higher quality)
+  in_channels: 512          # Encoder output dimension (h_y)
+  out_channels: 80          # Mel spectrogram channels
+  hidden_channels: 512      # Hidden dimension
+  kernel_sizes: [3, 7, 11]
+  dilations: [[1, 3, 5], [1, 3, 5], [1, 3, 5]]
+  n_res_blocks: 3
+  spk_emb_dim: 256          # Speaker embedding dimension
+  dropout: 0.1
+
+discriminator:
+  type: "combined"          # "combined" (better quality) or "lightweight" (faster)
+  periods: [2, 3, 5, 7, 11]
+  n_scales: 3
+  n_mel: 80
+
+# --- Data ---
+data:
+  data_dir: "/home/chenxiliu/PhD/TokAN/fast_synthesizer/data/gan_targets"
+  test_speakers: ["EBVS", "SKA"]
+  sentences_per_speaker_test: 50
+  sentences_per_speaker_val: 50
+  max_mel_length: 1000
+  batch_size: 16
+  num_workers: 4
+
+# --- Training ---
+training:
+  # Optimization
+  lr_g: 2.0e-4
+  lr_d: 2.0e-4
+  betas: [0.8, 0.99]
+  weight_decay: 0.0
+  
+  # Schedule (per-epoch)
+  max_epochs: 200
+  warmup_epochs: 5          # Warmup epochs for LR scheduler
+  min_lr: 1.0e-6            # Minimum LR after cosine decay
+  grad_clip: 5.0
+  
+  # Loss weights
+  lambda_mel: 45.0          # Mel reconstruction weight
+  lambda_fm: 2.0            # Feature matching weight
+  lambda_mr: 1.0            # Multi-resolution STFT weight
+  
+  # Training strategy
+  discriminator_start_epoch: 5  # Start GAN training after warmup
+  ema_decay: 0.999              # EMA decay for generator
+
+# --- Checkpointing ---
+checkpoint:
+  save_dir: "./checkpoints/gan_decoder"
+  save_every_n_epochs: 10   # Save checkpoint every N epochs
+  keep_last_n: 5            # Keep last N epoch checkpoints
+
+# --- Logging ---
+logging:
+  log_dir: "./logs/gan_decoder"
+  log_every_n_steps: 50
+
+# --- WandB ---
+wandb_project: "gan-decoder-tokan"
+wandb_run_name: null        # Auto-generated if null
+wandb_tags: ["gan-decoder", "tokan", "accent-conversion"]
+
+# --- Hardware ---
+device: "cuda"
+seed: 42
+precision: "bf16-mixed"     # "32", "16-mixed", "bf16-mixed"
