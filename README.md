@@ -95,13 +95,43 @@ pretrained_models/
 Note: The dataset audio files (.wav) are not included in this repository.
 
 1. Download Datasets
-Please download the datasets from their official sources:
+L2ARCTIC contains non-native English speech, while ARCTIC provides native English speakers for comparison. The combined dataset should include:
 
-L2-ARCTIC: Download Link
+**L2ARCTIC Speakers (by accent):**
+- Arabic (`<ar>`): ABA, YBAA, ZHAA, SKA
+- Chinese (`<zh>`): BWC, LXC, NCC, TXHC  
+- Hindi (`<hi>`): ASI, RRBI, SVBI, TNI
+- Korean (`<ko>`): HJK, YDCK, YKWK, HKK
+- Spanish (`<es>`): EBVS, ERMS, NJS, MBMPS
+- Vietnamese (`<vi>`): HQTV, PNV, THV, TLV
 
-CMU-ARCTIC: Download Link
+**ARCTIC Native Speakers (`<us>`):** BDL, RMS, SLT, CLB
 
-Extract them into a local directory (e.g., data/L2Arctic).
+**Expected Directory Structure:**
+```
+l2arctic/
+├ # L2ARCTIC speakers (direct extraction)
+├── YBAA/
+├── BWC/
+├── ...
+├ # ARCTIC native speakers
+├── BDL/
+├── RMS/
+├── SLT/
+└── CLB/
+```
+
+**Download Instructions:**
+
+*For L2ARCTIC:*
+1. Visit: https://psi.engr.tamu.edu/l2-arctic-corpus/
+2. Download and extract to your L2ARCTIC root directory
+
+*For ARCTIC Native Speakers:*
+1. Visit: http://festvox.org/cmu_arctic/
+2. Download: `cmu_us_bdl_arctic.tar.bz2`, `cmu_us_rms_arctic.tar.bz2`, `cmu_us_slt_arctic.tar.bz2`, `cmu_us_clb_arctic.tar.bz2`
+3. Extract to L2ARCTIC's directory with the same meaning pattern (speaker's tag in the upper case)
+
 
 2. Prepare Targets (Distillation)
 We use the original TokAN model as a "Teacher" to generate training targets.
